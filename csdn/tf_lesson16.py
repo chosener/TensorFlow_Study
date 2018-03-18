@@ -2,8 +2,10 @@
 Please note, this code is only for python 3+. If you are using python 2+, please modify the code accordingly.
 """
 import tensorflow as tf
+
 from tensorflow.examples.tutorials.mnist import input_data
 # number 1 to 10 data
+#if no have the data.this download the data.
 mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
  
 def add_layer(inputs, in_size, out_size, activation_function=None,):
@@ -26,26 +28,29 @@ def compute_accuracy(v_xs, v_ys):
     return result
  
 # define placeholder for inputs to network
-xs = tf.placeholder(tf.float32, [None, 784]) # 28x28
+xs = tf.placeholder(tf.float32, [None, 784]) # 28x28,784pixel
 ys = tf.placeholder(tf.float32, [None, 10])
  
 # add output layer
+#xs,input_szie,output_size,activation_function
 prediction = add_layer(xs, 784, 10,  activation_function=tf.nn.softmax)
  
 # the error between prediction and real data
 #this is the loss
-cross_entropy = tf.reduce_mean(-tf.reduce_sum(ys * tf.log(prediction),
-                                              reduction_indices=[1]))       # loss
+# loss
+cross_entropy = tf.reduce_mean(-tf.reduce_sum(ys * tf.log(prediction),reduction_indices=[1]))
+
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
  
 sess = tf.Session()
 # important step
-sess.run(tf.initialize_all_variables())
+sess.run(tf.global_variables_initializer())
  
 for i in range(1000):
     #100 by 100, study
     batch_xs, batch_ys = mnist.train.next_batch(100)
+    #train data
     sess.run(train_step, feed_dict={xs: batch_xs, ys: batch_ys})
     if i % 50 == 0:
-        print(compute_accuracy(
-            mnist.test.images, mnist.test.labels))
+        #data test
+        print(compute_accuracy(mnist.test.images, mnist.test.labels))
