@@ -2,7 +2,7 @@
 TensorFlow Study Project
 
 git的使用方法: 
-touch README.md //新建一个记录提交操作的文档 
+touch README.md //新建一个记录提交操作的文档\n
 git init //初始化本地仓库 
 git add README.md //添加 
 git add * //加入所有项目 
